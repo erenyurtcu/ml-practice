@@ -9,15 +9,15 @@ from sklearn.preprocessing import LabelEncoder
 data2 = data.apply(LabelEncoder().fit_transform)
 
 c = data2.iloc[:,:1]
+
 from sklearn.preprocessing import OneHotEncoder
-ohe = OneHotEncoder(categorical_features='all')
-c=ohe.fit_transform(c).toarray()
+ohe = OneHotEncoder()
+c = ohe.fit_transform(data2.iloc[:, :1]).toarray()
 print(c)
 
-weather = pd.DataFrame(data = c, index = range(14), columns=['o','r','s'])
-lastData = pd.concat([weather,data.iloc[:,1:3]],axis = 1)
-lastData = pd.concat([data2.iloc[:,-2:],lastData], axis = 1)
-
+weather = pd.DataFrame(data=c, index=range(14), columns=['o', 'r', 's'])
+lastData = pd.concat([weather, data.iloc[:, 1:3]], axis=1)
+lastData = pd.concat([data2.iloc[:, -2:], lastData], axis=1)
 
 # splitting data for training and testing
 from sklearn.cross_validation import train_test_split
@@ -26,7 +26,6 @@ x_train, x_test,y_train,y_test = train_test_split(lastData.iloc[:,:-1],lastData.
 from sklearn.linear_model import LinearRegression
 regressor = LinearRegression()
 regressor.fit(x_train,y_train)
-
 
 y_pred = regressor.predict(x_test)
 
