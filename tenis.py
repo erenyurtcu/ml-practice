@@ -11,14 +11,13 @@ print (play)
 # converting categorical data to numerical data with using encoder
 from sklearn import preprocessing
 
-le = preprocessing.LabelEncoder()
-play[:,-1] = le.fit_transform(data.iloc[:,-1]) #true, false --> 1, 0
+data2 = data.apply(preprocessing.LabelEncoder().fit_transform)
 
-
+c = data2.iloc[:,:1]
 
 from sklearn.preprocessing import OneHotEncoder
 ohe = OneHotEncoder()
-c = ohe.fit_transform(data2.iloc[:, :1]).toarray())
+c = ohe.fit_transform(c).toarray()
 print(c)
 
 weather = pd.DataFrame(data=c, index=range(14), columns=['o', 'r', 's'])
@@ -26,7 +25,7 @@ lastData = pd.concat([weather, data.iloc[:, 1:3]], axis=1)
 lastData = pd.concat([data2.iloc[:, -2:], lastData], axis=1)
 
 # splitting data for training and testing
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 x_train, x_test,y_train,y_test = train_test_split(lastData.iloc[:,:-1],lastData.iloc[:,-1:],test_size=0.33, random_state=0)
 
 from sklearn.linear_model import LinearRegression
@@ -35,7 +34,6 @@ regressor.fit(x_train,y_train)
 
 y_pred = regressor.predict(x_test)
 
-print(y_pred)
 
 import statsmodels.formula.api as sm 
 X = np.append(arr = np.ones((14,1)).astype(int), values=lastData.iloc[:,:-1], axis=1 )
