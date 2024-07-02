@@ -34,34 +34,31 @@ regressor.fit(x_train,y_train)
 
 y_pred = regressor.predict(x_test)
 
+print(y_pred) # comparing the first prediction and last prediction after elimination
 
-import statsmodels.formula.api as sm 
-X = np.append(arr = np.ones((14,1)).astype(int), values=lastData.iloc[:,:-1], axis=1 )
+import statsmodels.api as sm 
+X = np.append(arr = np.ones((14,1)).astype(int), values=lastData.iloc[:,:-1], axis = 1)
+
 X_l = lastData.iloc[:,[0,1,2,3,4,5]].values
-r_ols = sm.OLS(endog = lastData.iloc[:,-1:], exog =X_l)
-r = r_ols.fit()
-print(r.summary())
+X_l = np.array(X_l, dtype = float)
+model = sm.OLS(endog = lastData.iloc[:,-1:], exog =X_l).fit()
 
+print(model.summary())
+
+# eliminating the windy column
 lastData = lastData.iloc[:,1:]
 
-import statsmodels.formula.api as sm 
-X = np.append(arr = np.ones((14,1)).astype(int), values=lastData.iloc[:,:-1], axis=1 )
 X_l = lastData.iloc[:,[0,1,2,3,4]].values
-r_ols = sm.OLS(endog = lastData.iloc[:,-1:], exog =X_l)
-r = r_ols.fit()
-print(r.summary())
+X_l = np.array(X_l, dtype = float)
+model = sm.OLS(endog = lastData.iloc[:,-1:], exog =X_l).fit()
 
+print(model.summary())
+
+
+# taking all columns except windy column
 x_train = x_train.iloc[:,1:]
 x_test = x_test.iloc[:,1:]
 
 regressor.fit(x_train,y_train)
 
-
 y_pred = regressor.predict(x_test)
-
-
-
-
-
-
-
