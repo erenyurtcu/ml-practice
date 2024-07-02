@@ -4,15 +4,21 @@ import pandas as pd
 
 data = pd.read_csv('tenis.csv')
 
-# converting categorical data to numerical data with using encoder
-from sklearn.preprocessing import LabelEncoder
-data2 = data.apply(LabelEncoder().fit_transform)
 
-c = data2.iloc[:,:1]
+play = data.iloc[:,-1:].values
+print (play)
+
+# converting categorical data to numerical data with using encoder
+from sklearn import preprocessing
+
+le = preprocessing.LabelEncoder()
+play[:,-1] = le.fit_transform(data.iloc[:,-1]) #true, false --> 1, 0
+
+
 
 from sklearn.preprocessing import OneHotEncoder
 ohe = OneHotEncoder()
-c = ohe.fit_transform(data2.iloc[:, :1]).toarray()
+c = ohe.fit_transform(data2.iloc[:, :1]).toarray())
 print(c)
 
 weather = pd.DataFrame(data=c, index=range(14), columns=['o', 'r', 's'])
