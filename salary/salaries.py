@@ -77,3 +77,39 @@ model3=sm.OLS(svr_reg.predict(xScaled),xScaled)
 print(model3.fit().summary())
 
 print('SVR R² value = ' + str(r2_score(yScaled, svr_reg.predict(xScaled))))
+
+# decision tree regression
+from sklearn.tree import DecisionTreeRegressor
+r_dt = DecisionTreeRegressor(random_state=0)
+r_dt.fit(X,Y)
+
+model4 = sm.OLS(r_dt.predict(X),X)
+print('Decision Tree OLS\n' + str(model4.fit().summary()))
+print('Decision Tree R value = ' + str(r2_score(Y, r_dt.predict(X))))
+
+# random forest regression (with using decision trees)
+from sklearn.ensemble import RandomForestRegressor
+rfReg=RandomForestRegressor(n_estimators = 10,random_state=0)
+rfReg.fit(X,Y.ravel())
+
+
+
+print('Random Forest OLS')
+model5=sm.OLS(rfReg.predict(X),X)
+print(model5.fit().summary())
+
+
+
+print('Random Forest R² value = ' + str(r2_score(Y, rfReg.predict(X))))
+
+# Comparing R²
+print('==============================================================================')
+print('Linear R² value        = ' + str(r2_score(Y, linReg.predict(X))))
+
+print('Polynomial R² value    = ' + str(r2_score(Y, linReg2.predict(polyReg.fit_transform(X)))))
+
+print('SVR R² value           = ' + str(r2_score(Y, r_dt.predict(X))))
+
+print('Decision Tree R² value = ' + str(r2_score(Y, r_dt.predict(X))))
+
+print('Random Forest R² value = ' + str(r2_score(Y, rfReg.predict(X))))
