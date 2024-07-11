@@ -18,5 +18,12 @@ for n in range(0,N):
     total = total + reward # if it has a reward, increase the total by 1
     
 # the plot of ads
-plt.hist(selected)
+fig, ax = plt.subplots()
+counts = [selected.count(i) for i in range(d)]
+colors = plt.cm.tab10(np.linspace(0, 1, d))
+bars = ax.bar(range(d), counts, color=colors, edgecolor='black', width=0.7)
+ax.set_xlabel('Ads')
+ax.set_ylabel('Number of Views')
+ax.set_title('Number of Impressions by Ads')
+ax.set_xticks(range(d))
 plt.show()
