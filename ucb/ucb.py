@@ -36,7 +36,6 @@ for n in range(0,N):
 print('Total Rewards: ' + str(total))   
 
 # the plot
-
 fig, ax = plt.subplots()
 counts = [selected.count(i) for i in range(d)]
 colors = plt.cm.tab10(np.linspace(0, 1, d))
