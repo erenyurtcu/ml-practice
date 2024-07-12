@@ -13,7 +13,7 @@ rewards = [0] *d # initially, all rewards are 0
 total = 0 # total reward value
 views = [0] * d # views of that time
 selected = []
-for n in range(0,N):
+for n in range(1,N):
     ad = 0 # selected ad
     maxUCB = 0 # inital value of the max ucb is 0
     for i in range(0,d):
@@ -22,15 +22,15 @@ for n in range(0,N):
             delta = math.sqrt(3/2* math.log(n)/views[i])
             ucb = mean + delta
         else:
-            ucb = N*10
+            ucb = N * 10
         if maxUCB < ucb:
             maxUCB = ucb
             ad = i
             
         selected.append(ad)
-        views[ad] = views[ad]+ 1
+        views[ad] = views[ad] + 1
         reward = data.values[n,ad] # if the value in the n. cell is 1, the reward is 1
-        rewards[ad] = rewards[ad]+ reward
+        rewards[ad] = rewards[ad] + reward
         total = total + reward
         
 print('Total Rewards: ' + str(total))   
