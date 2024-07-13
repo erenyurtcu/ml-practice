@@ -25,3 +25,9 @@ reviews.to_csv('Cleaned_Restaurant_Reviews.csv', index=False)
 reviews = pd.read_csv('Cleaned_Restaurant_Reviews.csv')
 
 print(reviews)
+
+import re
+
+review = re.sub('[^a-zA-z]',' ', reviews['Review'][0]) # [^a-zA-z] means replace any character that is not a letter with a space
+review = review.lower() # make all letters to lowercase
+review = review.split() # make the list which includes the words of the sentence
