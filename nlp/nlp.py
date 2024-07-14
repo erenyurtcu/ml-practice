@@ -27,7 +27,18 @@ reviews = pd.read_csv('Cleaned_Restaurant_Reviews.csv')
 print(reviews)
 
 import re
+import nltk
+from nltk.stem.porter import PorterStemmer
+from nltk.corpus import stopwords
+nltk.download('stopwords')
+ps = PorterStemmer()
 
-review = re.sub('[^a-zA-z]',' ', reviews['Review'][0]) # [^a-zA-z] means replace any character that is not a letter with a space
-review = review.lower() # make all letters to lowercase
-review = review.split() # make the list which includes the words of the sentence
+corpus = []
+
+for i in range(1000):
+    review = re.sub('[^a-zA-z]',' ', reviews['Review'][i]) # [^a-zA-z] means replace any character that is not a letter with a space
+    review = review.lower() # make all letters to lowercase
+    review = review.split() # make the list which includes the words of the sentence
+    review = [ps.stem(word) for word in review if not word in set (stopwords.words('english'))] # if it is not stopword, than take the words' root as a list element
+    review = ' '.join(review)
+    corpus.append(review)
