@@ -37,3 +37,37 @@ sc = StandardScaler()
 
 X_train = sc.fit_transform(x_train)
 X_test = sc.fit_transform(x_test)
+
+# ann
+import keras
+from keras.models import Sequential
+from keras.layers import Dense
+
+classifier = Sequential()
+
+# input and hidden layer
+classifier.add(Dense(6, kernel_initializer = 'uniform', activation = 'relu' , input_dim = 11))
+
+# second hidden layer
+classifier.add(Dense(6, kernel_initializer = 'uniform', activation = 'relu'))
+
+# output layer
+classifier.add(Dense(1, kernel_initializer = 'uniform', activation = 'sigmoid'))
+
+# compiling
+classifier.compile(optimizer = 'adam', loss =  'binary_crossentropy' , metrics = ['accuracy'] )
+
+
+#training
+classifier.fit(X_train, y_train, epochs = 50) # epochs is repeat number of training
+
+y_pred = classifier.predict(X_test)
+
+y_pred = (y_pred > 0.5) # convert predictions to binary values
+
+# confusion matrix
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y_test,y_pred)
+
+print(cm)
+
